@@ -363,16 +363,14 @@ const DATA = [
     ]
   },
   {
-    id: 'cases',
-    name: '⑥ 案例分析 Case Studies',
-    desc: '真实品牌案例拆解——自己做的 papatui / Henkel，也拆别家做得好的（Anker、Halara、Hero Cosmetics 等）。看结果，更看决策过程。',
+    id: 'notes',
+    name: '⑥ 我的笔记 My Notes',
+    desc: '我自己写的思考、方法论、行业观察。持续更新。',
     items: [
-      { kind:'case', title:'papatui Day 1 开工日记', desc:'首日决策：拒绝赶年中促、达人金字塔配比、"什么叫失败"的对齐——决策原始记录。',
-        tags:['papatui','冷启动','决策日志'], channel:'TT', market:'跨境', url:'./article.html?file=notes/case-papatui-day1.md' },
-      { kind:'note', title:'思考：Flat Fee 的边界在哪里', desc:'Flat Fee 不是付款方式，是"买测试权"的决策工具。为什么 Tier 3 有时比 Tier 1 更值得给？',
-        tags:['达人','Flat Fee','思考'], channel:'TT', market:'通用', url:'./article.html?file=notes/thinking-flat-fee-boundary.md' },
-      { kind:'note', title:'TTS 冷启动 · 高频 Q&A', desc:'500 视频是硬指标吗？Flat Fee 给多少？Day 30 不达标要放弃吗？——4 个决策依据而非答案。',
-        tags:['Q&A','冷启动','必读'], channel:'TT', market:'通用', url:'./article.html?file=notes/qa-tts-cold-start.md' },
+      // 在飞书写好 → 导出 Markdown → 上传到 notes/ 文件夹 → 在这里加一行链接
+      // 示例格式：
+      // { kind:'note', title:'笔记标题', desc:'一句话简介。',
+      //   tags:['标签1','标签2'], channel:'TT', market:'通用', url:'./article.html?file=notes/文件名.md' },
     ]
   },
 ];
