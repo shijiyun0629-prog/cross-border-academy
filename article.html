@@ -71,35 +71,24 @@
   <div class="border-t border-slate-200 pt-8">
     <h3 class="text-lg font-semibold text-slate-900 mb-4">💬 评论区</h3>
 
-    <!-- Giscus 挂载点 - 部署后替换下面的占位参数 -->
+    <!-- Giscus 评论 · 已配置 -->
     <div id="giscus-container">
-      <div id="giscus-placeholder" class="p-4 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-900">
-        <div class="font-semibold mb-1">💡 评论区待配置</div>
-        <div class="text-xs leading-relaxed">
-          需要在 <code>article.html</code> 底部把 Giscus 的 4 个参数填进去（data-repo, data-repo-id, data-category, data-category-id）。<br>
-          配置向导：<a href="https://giscus.app/zh-CN" target="_blank" class="underline">giscus.app/zh-CN</a>
-        </div>
-      </div>
+      <script src="https://giscus.app/client.js"
+        data-repo="shijiyun0629-prog/cross-border-academy"
+        data-repo-id="R_kgDOTXebJA"
+        data-category="Announcements"
+        data-category-id="DIC_kwDOTXebJM4DBIZV"
+        data-mapping="pathname"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="light"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+      </script>
     </div>
-
-    <!-- 👇 部署后取消下面的注释，并填入 Giscus 的 4 个参数（从 giscus.app 生成） -->
-    <!--
-    <script src="https://giscus.app/client.js"
-      data-repo="__YOUR_USERNAME__/__YOUR_REPO__"
-      data-repo-id="__REPO_ID__"
-      data-category="Announcements"
-      data-category-id="__CATEGORY_ID__"
-      data-mapping="pathname"
-      data-strict="0"
-      data-reactions-enabled="1"
-      data-emit-metadata="0"
-      data-input-position="top"
-      data-theme="light"
-      data-lang="zh-CN"
-      crossorigin="anonymous"
-      async>
-    </script>
-    -->
   </div>
 </section>
 
