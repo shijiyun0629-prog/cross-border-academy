@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>加载中… · Cross-Border Academy</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          brand: { 50:'#eef4ff',100:'#dbe6ff',500:'#4f6bed',600:'#3e56d1',700:'#3346ac',900:'#1b2554' }
+        },
+        fontFamily: {
+          sans: ['-apple-system','Segoe UI','PingFang SC','Microsoft YaHei','system-ui','sans-serif'],
+          serif: ['Georgia','"Times New Roman"','"PingFang SC"','"Songti SC"','serif'],
+        }
+      }
+    }
+  }
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  /* Article prose styles — clean reading experience */
+  .article h1 { font-size: 2rem; font-weight: 700; margin: 1.6rem 0 1rem; color:#0f172a; line-height: 1.25;}
+  .article h2 { font-size: 1.5rem; font-weight: 700; margin: 2.2rem 0 .8rem; color:#0f172a; padding-top: .3rem; border-top: 1px solid #f1f5f9;}
+  .article h3 { font-size: 1.2rem; font-weight: 600; margin: 1.8rem 0 .6rem; color:#1e293b; }
+  .article h4 { font-size: 1rem; font-weight: 600; margin: 1.4rem 0 .4rem; color:#334155; }
+  .article p  { margin: .8rem 0; line-height: 1.85; color:#334155; }
+  .article ul, .article ol { margin: .8rem 0 .8rem 1.4rem; line-height: 1.85; color:#334155; }
+  .article li { margin: .3rem 0; }
+  .article strong { color: #0f172a; }
+  .article a { color:#3e56d1; text-decoration: underline; text-underline-offset: 2px; }
+  .article a:hover { color:#1b2554; }
+  .article code { background:#f1f5f9; color:#3346ac; padding:2px 6px; border-radius:4px; font-size:.9em; font-family: ui-monospace, monospace; }
+  .article pre { background:#0f172a; color:#e2e8f0; padding: 1rem; border-radius: 8px; overflow-x:auto; margin: 1rem 0;}
+  .article pre code { background:transparent; color:inherit; padding:0; }
+  .article blockquote { border-left: 3px solid #4f6bed; padding: .5rem 0 .5rem 1rem; margin: 1rem 0; color:#475569; background:#f8fafc; border-radius: 0 6px 6px 0;}
+  .article table { border-collapse: collapse; margin: 1rem 0; width: 100%; font-size: .95rem;}
+  .article th, .article td { border: 1px solid #e2e8f0; padding: .6rem .8rem; text-align: left; }
+  .article th { background:#f8fafc; font-weight: 600; }
+  .article hr { border: none; border-top: 1px solid #e2e8f0; margin: 2rem 0;}
+  .article img { max-width: 100%; border-radius: 8px; margin: 1rem 0;}
+  mark { background: #fde68a; padding: 0 2px; border-radius: 3px; }
+</style>
+</head>
+<body class="bg-white text-slate-800 font-sans">
+
+<!-- NAV -->
+<header class="bg-white border-b border-slate-200 sticky top-0 z-40">
+  <div class="max-w-3xl mx-auto px-6 py-3 flex items-center justify-between">
+    <a href="./index.html" class="flex items-center gap-2 text-slate-700 hover:text-brand-600">
+      <span>←</span>
+      <span class="text-sm">返回学习站</span>
+    </a>
+    <div class="text-xs text-slate-400">Cross-Border Academy</div>
+  </div>
+</header>
+
+<!-- ARTICLE -->
+<main class="max-w-3xl mx-auto px-6 py-10">
+  <div id="loadingState" class="text-center py-16 text-slate-400">加载中…</div>
+  <div id="errorState" class="hidden py-8 px-6 bg-red-50 border border-red-100 rounded-xl text-sm text-red-700"></div>
+  <article id="articleBody" class="article hidden"></article>
+</main>
+
+<!-- COMMENTS -->
+<section class="max-w-3xl mx-auto px-6 pb-16">
+  <div class="border-t border-slate-200 pt-8">
+    <h3 class="text-lg font-semibold text-slate-900 mb-4">💬 评论区</h3>
+
+    <!-- Giscus 挂载点 - 部署后替换下面的占位参数 -->
+    <div id="giscus-container">
+      <div id="giscus-placeholder" class="p-4 bg-amber-50 border border-amber-200 rounded-lg text-sm text-amber-900">
+        <div class="font-semibold mb-1">💡 评论区待配置</div>
+        <div class="text-xs leading-relaxed">
+          需要在 <code>article.html</code> 底部把 Giscus 的 4 个参数填进去（data-repo, data-repo-id, data-category, data-category-id）。<br>
+          配置向导：<a href="https://giscus.app/zh-CN" target="_blank" class="underline">giscus.app/zh-CN</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- 👇 部署后取消下面的注释，并填入 Giscus 的 4 个参数（从 giscus.app 生成） -->
+    <!--
+    <script src="https://giscus.app/client.js"
+      data-repo="__YOUR_USERNAME__/__YOUR_REPO__"
+      data-repo-id="__REPO_ID__"
+      data-category="Announcements"
+      data-category-id="__CATEGORY_ID__"
+      data-mapping="pathname"
+      data-strict="0"
+      data-reactions-enabled="1"
+      data-emit-metadata="0"
+      data-input-position="top"
+      data-theme="light"
+      data-lang="zh-CN"
+      crossorigin="anonymous"
+      async>
+    </script>
+    -->
+  </div>
+</section>
+
+<footer class="border-t border-slate-200 bg-slate-50">
+  <div class="max-w-3xl mx-auto px-6 py-6 text-xs text-slate-400 flex items-center justify-between">
+    <div>© 2026 Cross-Border Academy</div>
+    <a href="./index.html" class="hover:text-brand-600">返回目录 →</a>
+  </div>
+</footer>
+
+<script>
+// Parse query
+const params = new URLSearchParams(location.search);
+const file   = params.get('file');
+const loadingEl = document.getElementById('loadingState');
+const errorEl   = document.getElementById('errorState');
+const articleEl = document.getElementById('articleBody');
+
+async function loadArticle(){
+  if(!file){
+    showError('缺少参数：请通过 <code>?file=notes/xxx.md</code> 打开文章');
+    return;
+  }
+  // Safety: only allow .md files inside notes/ folder
+  if(!/^notes\/[\w\-\.\u4e00-\u9fa5]+\.md$/i.test(file)){
+    showError('非法文件路径。只允许加载 notes/ 目录下的 .md 文件。');
+    return;
+  }
+  try {
+    const res = await fetch(file);
+    if(!res.ok) throw new Error('文件不存在或无法读取（HTTP ' + res.status + '）');
+    const md = await res.text();
+
+    // Parse front-matter (optional): first block between --- --- lines
+    let meta = {};
+    let body = md;
+    const fm = md.match(/^---\n([\s\S]+?)\n---\n?([\s\S]*)$/);
+    if(fm){
+      fm[1].split('\n').forEach(line => {
+        const m = line.match(/^(\w+):\s*(.+)$/);
+        if(m) meta[m[1].trim()] = m[2].trim().replace(/^["']|["']$/g,'');
+      });
+      body = fm[2];
+    }
+
+    // Render
+    articleEl.innerHTML = marked.parse(body);
+    articleEl.classList.remove('hidden');
+    loadingEl.classList.add('hidden');
+    document.title = (meta.title || file.split('/').pop().replace('.md','')) + ' · Cross-Border Academy';
+  } catch(err) {
+    showError('加载失败：' + err.message + '<br><br><span class="text-xs">如果你正在双击本地文件打开，浏览器安全策略会阻止读取本地文件——这是正常的。等 30 分钟后我们部署到 Vercel，就能正常访问了。</span>');
+  }
+}
+
+function showError(msg){
+  loadingEl.classList.add('hidden');
+  errorEl.classList.remove('hidden');
+  errorEl.innerHTML = msg;
+}
+
+loadArticle();
+</script>
+</body>
+</html>

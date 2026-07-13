@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cross-Border Commerce Academy · 跨境电商学习站</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+  tailwind.config = {
+    theme: {
+      extend: {
+        colors: {
+          brand: {
+            50:  '#eef4ff',
+            100: '#dbe6ff',
+            500: '#4f6bed',
+            600: '#3e56d1',
+            700: '#3346ac',
+            900: '#1b2554',
+          }
+        },
+        fontFamily: {
+          sans: ['-apple-system','Segoe UI','PingFang SC','Microsoft YaHei','system-ui','sans-serif']
+        }
+      }
+    }
+  }
+</script>
+<style>
+  html { scroll-behavior: smooth; }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(30,42,110,.08); }
+  .card { transition: all .18s ease; }
+  .chip.active { background:#3e56d1; color:#fff; border-color:#3e56d1; }
+  .kind-link  { background:#eef4ff; color:#3346ac; }
+  .kind-note  { background:#e6f7ee; color:#1e6b3f; }
+  .kind-tool  { background:#fff3e0; color:#8a4b00; }
+  .kind-case  { background:#fef2f2; color:#9d174d; }
+  .ch-TT       { background:#ffe4ec; color:#a01249; }
+  .ch-Amazon   { background:#fff0d6; color:#8a4400; }
+  .ch-独立站   { background:#e0f2fe; color:#155e75; }
+  .ch-通用     { background:#f1f5f9; color:#475569; }
+  .mkt-跨境    { background:#ede9fe; color:#5b21b6; }
+  .mkt-本土    { background:#dcfce7; color:#166534; }
+  .mkt-通用    { background:#f1f5f9; color:#475569; }
+  mark { background: #fde68a; padding: 0 2px; border-radius: 3px; }
+  .modal-overlay { background: rgba(15,23,42,.55); }
+  textarea.snippet { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; font-size: 12px; }
+</style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans">
+
+<!-- ===================== NAV ===================== -->
+<header class="bg-white border-b border-slate-200 sticky top-0 z-40">
+  <div class="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <div class="w-8 h-8 rounded-lg bg-brand-500 text-white grid place-items-center font-bold">C</div>
+      <div>
+        <div class="font-semibold text-slate-900 leading-tight">Cross-Border Academy</div>
+        <div class="text-xs text-slate-500 leading-tight">跨境电商学习站 · v1.1</div>
+      </div>
+    </div>
+    <nav class="hidden md:flex gap-6 text-sm text-slate-600 items-center">
+      <a href="#categories" class="hover:text-brand-600">分类目录</a>
+      <a href="#about" class="hover:text-brand-600">关于</a>
+      <button id="openAddBtn" class="bg-brand-500 hover:bg-brand-600 text-white text-sm px-3 py-1.5 rounded-lg">➕ 添加内容</button>
+    </nav>
+  </div>
+</header>
+
+<!-- ===================== HERO ===================== -->
+<section class="bg-gradient-to-b from-white to-slate-50 border-b border-slate-100">
+  <div class="max-w-4xl mx-auto px-6 py-14 text-center">
+    <div class="inline-flex items-center gap-2 text-xs font-medium text-brand-700 bg-brand-50 px-3 py-1 rounded-full mb-4">
+      <span class="w-1.5 h-1.5 rounded-full bg-brand-500"></span> V1.1 · 渠道 + 市场 双维度筛选
+    </div>
+    <h1 class="text-3xl md:text-5xl font-bold text-slate-900 tracking-tight leading-tight">
+      跨境电商 · 知识 / 工具 / 链接 一站式
+    </h1>
+    <p class="mt-4 text-slate-600 md:text-lg">
+      政策规则、选品调研、达人合作、广告投放、运营 SOP —— 分类检索、随查随用。
+    </p>
+    <!-- search -->
+    <div class="mt-8 relative max-w-2xl mx-auto">
+      <input id="search" type="text" placeholder="搜索关键词，如：GMV Max、FDA、papatui、Flat Fee..."
+             class="w-full pl-12 pr-4 py-3.5 rounded-xl border border-slate-200 bg-white shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500 text-slate-800 placeholder-slate-400"/>
+      <svg class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M11 19a8 8 0 100-16 8 8 0 000 16z"/></svg>
+    </div>
+    <div class="mt-4 text-xs text-slate-400">Tip: 搜索会同时匹配标题、简介、标签。</div>
+  </div>
+</section>
+
+<!-- ===================== FILTER BARS ===================== -->
+<section class="max-w-6xl mx-auto px-6 pt-8 space-y-3">
+  <div class="flex flex-wrap items-center gap-2 text-sm">
+    <span class="text-slate-500 w-16 shrink-0">类型：</span>
+    <button data-kind="all"  class="chip active px-3 py-1.5 rounded-full border border-slate-200 bg-white">全部</button>
+    <button data-kind="link" class="chip px-3 py-1.5 rounded-full border border-slate-200 bg-white">🔗 外链</button>
+    <button data-kind="note" class="chip px-3 py-1.5 rounded-full border border-slate-200 bg-white">📝 笔记</button>
+    <button data-kind="tool" class="chip px-3 py-1.5 rounded-full border border-slate-200 bg-white">🛠 工具</button>
+    <button data-kind="case" class="chip px-3 py-1.5 rounded-full border border-slate-200 bg-white">🎯 案例</button>
+  </div>
+  <div class="flex flex-wrap items-center gap-2 text-sm">
+    <span class="text-slate-500 w-16 shrink-0">渠道：</span>
+    <button data-ch="all"    class="chip-ch active px-3 py-1.5 rounded-full border border-slate-200 bg-white">全部</button>
+    <button data-ch="TT"     class="chip-ch px-3 py-1.5 rounded-full border border-slate-200 bg-white">TT</button>
+    <button data-ch="Amazon" class="chip-ch px-3 py-1.5 rounded-full border border-slate-200 bg-white">Amazon</button>
+    <button data-ch="独立站" class="chip-ch px-3 py-1.5 rounded-full border border-slate-200 bg-white">独立站</button>
+    <button data-ch="通用"   class="chip-ch px-3 py-1.5 rounded-full border border-slate-200 bg-white">通用</button>
+  </div>
+  <div class="flex flex-wrap items-center gap-2 text-sm">
+    <span class="text-slate-500 w-16 shrink-0">市场：</span>
+    <button data-mkt="all"  class="chip-mkt active px-3 py-1.5 rounded-full border border-slate-200 bg-white">全部</button>
+    <button data-mkt="跨境" class="chip-mkt px-3 py-1.5 rounded-full border border-slate-200 bg-white">跨境（品牌出海）</button>
+    <button data-mkt="本土" class="chip-mkt px-3 py-1.5 rounded-full border border-slate-200 bg-white">本土店</button>
+    <button data-mkt="通用" class="chip-mkt px-3 py-1.5 rounded-full border border-slate-200 bg-white">通用</button>
+  </div>
+</section>
+
+<!-- ===================== CATEGORIES ===================== -->
+<section id="categories" class="max-w-6xl mx-auto px-6 py-10">
+  <div id="categoryContainer" class="space-y-12"></div>
+  <div id="emptyState" class="hidden text-center py-16 text-slate-400">
+    没有匹配的内容 · 换个关键词试试
+  </div>
+</section>
+
+<!-- ===================== ABOUT ===================== -->
+<section id="about" class="bg-white border-t border-slate-200">
+  <div class="max-w-4xl mx-auto px-6 py-12">
+    <h2 class="text-xl font-semibold text-slate-900 mb-3">关于本站</h2>
+    <p class="text-slate-600 leading-relaxed">
+      跨境电商（TikTok Shop / Amazon / 独立站）从业者的公开学习资源库。
+      每条内容都标注三个维度：<strong>类型</strong>（外链/笔记/工具）·
+      <strong>渠道</strong>（TT/Amazon/独立站/通用）·
+      <strong>市场</strong>（跨境/本土/通用）。目标不是收藏所有信息，而是保留经过筛选、值得反复回看的资源。
+    </p>
+  </div>
+</section>
+
+<footer class="border-t border-slate-200 bg-slate-50">
+  <div class="max-w-6xl mx-auto px-6 py-6 text-xs text-slate-400 flex items-center justify-between">
+    <div>© 2026 Cross-Border Academy · v1.1</div>
+    <div>Built with plain HTML · single file</div>
+  </div>
+</footer>
+
+<!-- ===================== FLOATING ADD BUTTON ===================== -->
+<button id="fabAdd" class="fixed bottom-6 right-6 z-30 bg-brand-500 hover:bg-brand-600 text-white rounded-full shadow-lg px-5 py-3 text-sm font-medium flex items-center gap-2">
+  <span class="text-lg leading-none">➕</span> 添加内容
+</button>
+
+<!-- ===================== MODAL: ADD CONTENT ===================== -->
+<div id="addModal" class="hidden fixed inset-0 z-50 modal-overlay items-center justify-center p-4">
+  <div class="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[92vh] overflow-y-auto">
+    <div class="flex items-center justify-between px-6 py-4 border-b border-slate-100">
+      <div>
+        <div class="font-semibold text-slate-900">➕ 添加内容</div>
+        <div class="text-xs text-slate-500 mt-0.5">填完点"生成 JSON"，复制粘贴进 index.html 的 DATA 数组即可</div>
+      </div>
+      <button id="closeModalBtn" class="text-slate-400 hover:text-slate-600 text-xl leading-none">×</button>
+    </div>
+
+    <!-- Tabs -->
+    <div class="flex border-b border-slate-100 px-6">
+      <button class="tab-btn active px-3 py-2.5 text-sm border-b-2 border-brand-500 text-brand-600" data-tab="single">📝 单条添加</button>
+      <button class="tab-btn px-3 py-2.5 text-sm border-b-2 border-transparent text-slate-500 hover:text-slate-800" data-tab="bulk">📥 CSV 批量导入</button>
+    </div>
+
+    <div id="tab-single" class="tab-panel p-6 space-y-4">
+      <div>
+        <label class="text-xs text-slate-500 block mb-1">分类（放到哪个板块下）</label>
+        <select id="f_category" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white"></select>
+      </div>
+
+      <div class="grid grid-cols-3 gap-3">
+        <div>
+          <label class="text-xs text-slate-500 block mb-1">类型</label>
+          <select id="f_kind" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white">
+            <option value="link">🔗 外链</option>
+            <option value="note">📝 笔记</option>
+            <option value="tool">🛠 工具</option>
+            <option value="case">🎯 案例</option>
+          </select>
+        </div>
+        <div>
+          <label class="text-xs text-slate-500 block mb-1">渠道</label>
+          <select id="f_channel" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white">
+            <option>TT</option>
+            <option>Amazon</option>
+            <option>独立站</option>
+            <option selected>通用</option>
+          </select>
+          <div class="text-[10px] text-slate-400 mt-0.5">多渠道用逗号: TT,Amazon</div>
+        </div>
+        <div>
+          <label class="text-xs text-slate-500 block mb-1">市场</label>
+          <select id="f_market" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm bg-white">
+            <option>跨境</option>
+            <option>本土</option>
+            <option selected>通用</option>
+          </select>
+        </div>
+      </div>
+
+      <div>
+        <label class="text-xs text-slate-500 block mb-1">标题</label>
+        <input id="f_title" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm" placeholder="如：GMV Max 冷启动 45 天投放节奏"/>
+      </div>
+
+      <div>
+        <label class="text-xs text-slate-500 block mb-1">简介（一句话，会显示在卡片上）</label>
+        <textarea id="f_desc" rows="2" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm" placeholder="预算分配 / 出价策略 / 素材筛选 / 何时开二级投放"></textarea>
+      </div>
+
+      <div>
+        <label class="text-xs text-slate-500 block mb-1">标签（逗号分隔）</label>
+        <input id="f_tags" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm" placeholder="如：广告, 冷启动, SOP"/>
+      </div>
+
+      <div>
+        <label class="text-xs text-slate-500 block mb-1">URL（外部链接 或 本地相对路径 或 # 占位）</label>
+        <input id="f_url" class="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm" placeholder="https://... 或 ./xxx.pdf 或 #"/>
+      </div>
+
+      <div class="flex items-center gap-2 pt-2">
+        <button id="genJsonBtn" class="bg-brand-500 hover:bg-brand-600 text-white px-4 py-2 rounded-lg text-sm">生成 JSON</button>
+        <button id="clearFormBtn" class="text-slate-500 hover:text-slate-700 px-4 py-2 text-sm">清空</button>
+        <div class="text-xs text-slate-400 ml-auto">Tip：生成后按 <kbd class="bg-slate-100 px-1 rounded">Ctrl+C</kbd> 复制</div>
+      </div>
+
+      <div id="outputBox" class="hidden">
+        <label class="text-xs text-slate-500 block mb-1 mt-2">👇 复制这段 JSON，粘贴到 index.html 里对应分类的 items 数组末尾</label>
+        <textarea id="jsonOutput" class="snippet w-full border border-slate-200 rounded-lg px-3 py-2 bg-slate-50" rows="8" readonly></textarea>
+        <div class="flex gap-2 mt-2">
+          <button id="copyBtn" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-2 rounded-lg text-sm">📋 一键复制</button>
+          <span id="copyStatus" class="text-xs text-green-600 self-center"></span>
+        </div>
+        <details class="mt-3 text-xs text-slate-500">
+          <summary class="cursor-pointer hover:text-slate-700">📍 在 index.html 里怎么找位置？</summary>
+          <div class="mt-2 pl-3 border-l-2 border-slate-200 leading-relaxed">
+            1. 用文本编辑器打开 <code class="bg-slate-100 px-1 rounded">index.html</code><br>
+            2. 搜索 <code class="bg-slate-100 px-1 rounded">const DATA = [</code><br>
+            3. 找到你选择的分类（比如 <code class="bg-slate-100 px-1 rounded">id: 'ads'</code>）<br>
+            4. 在它的 <code class="bg-slate-100 px-1 rounded">items: [</code> 数组的最后一条后面，粘贴刚才复制的内容<br>
+            5. 保存文件，刷新浏览器
+          </div>
+        </details>
+      </div>
+    </div>
+
+    <!-- ========== BULK CSV IMPORT PANEL ========== -->
+    <div id="tab-bulk" class="tab-panel hidden p-6 space-y-4">
+      <div class="bg-brand-50 border border-brand-100 rounded-lg p-3 text-xs text-brand-900 leading-relaxed">
+        <div class="font-semibold mb-1">工作流：</div>
+        1. 打开 <code class="bg-white px-1 rounded">content_template.csv</code>（Excel 会自动识别）<br>
+        2. 在下面继续加行 → 保存为 CSV → 用 Excel 全选复制<br>
+        3. 粘贴到下方文本框 → 点"生成 JSON" → 复制粘贴到 index.html
+      </div>
+
+      <div>
+        <label class="text-xs text-slate-500 block mb-1">
+          粘贴 CSV 内容（第一行是表头，或直接粘贴 Excel 单元格）
+        </label>
+        <textarea id="csvInput" rows="8"
+          class="snippet w-full border border-slate-200 rounded-lg px-3 py-2 bg-slate-50"
+          placeholder="category_id,kind,title,desc,tags,channel,market,url&#10;ads,note,GMV Max 起量攻略,如何从 500 视频阈值走到日 100 单,广告;冷启动,TT,跨境,#"></textarea>
+        <div class="text-[10px] text-slate-400 mt-1">
+          支持逗号或 Tab 分隔（Excel 复制过来默认是 Tab，都能识别）· tags 内部用分号 <code>;</code> 或英文逗号
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <button id="parseCsvBtn" class="bg-brand-500 hover:bg-brand-600 text-white px-4 py-2 rounded-lg text-sm">生成 JSON</button>
+        <button id="loadTemplateBtn" class="text-slate-500 hover:text-slate-700 px-3 py-2 text-sm">📄 载入模板示例</button>
+        <span id="parseStatus" class="text-xs ml-auto"></span>
+      </div>
+
+      <div id="bulkOutputBox" class="hidden">
+        <label class="text-xs text-slate-500 block mb-1 mt-2">
+          👇 按分类整理好的 JSON 片段（每段单独粘贴到 index.html 对应分类的 items 数组末尾）
+        </label>
+        <textarea id="bulkJsonOutput" class="snippet w-full border border-slate-200 rounded-lg px-3 py-2 bg-slate-50" rows="10" readonly></textarea>
+        <div class="flex gap-2 mt-2">
+          <button id="copyBulkBtn" class="bg-slate-800 hover:bg-slate-900 text-white px-4 py-2 rounded-lg text-sm">📋 一键复制</button>
+          <span id="copyBulkStatus" class="text-xs text-green-600 self-center"></span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- =====================================================
+     DATA — 修改这里就能增删内容
+     每个 category: { id, name, desc, items: [...] }
+     每个 item: { kind, title, desc, tags, channel, market, url }
+       - kind:    'link' | 'note' | 'tool'
+       - channel: 'TT' | 'Amazon' | '独立站' | '通用'（多个用逗号）
+       - market:  '跨境' | '本土' | '通用'
+     ===================================================== -->
+<script>
+const DATA = [
+  {
+    id: 'rules',
+    name: '① 平台规则 & 合规政策',
+    desc: 'TTS / Amazon / 独立站 官方政策、认证、审核标准。合规是底线。',
+    items: [
+      { kind:'link', title:'TikTok Shop Academy（官方）', desc:'TTS 官方学习平台，卖家 onboarding 权威入口。',
+        tags:['官方','入门'], channel:'TT', market:'通用', url:'https://academy.tiktokshop.com/' },
+      { kind:'link', title:'FDA / MoCRA 化妆品合规', desc:'美国化妆品新规——所有卖家必读。',
+        tags:['合规','美护','政策'], channel:'通用', market:'通用', url:'https://www.fda.gov/cosmetics' },
+      { kind:'note', title:'TTS 品类禁售/限售清单（内部整理）', desc:'按品类整理的准入门槛 + 常见拒审原因。',
+        tags:['合规','速查'], channel:'TT', market:'通用', url:'#' },
+    ]
+  },
+  {
+    id: 'research',
+    name: '② 市场调研 & 选品',
+    desc: '找赛道、看竞品、判断 timing。避免用感觉选品。',
+    items: [
+      { kind:'link', title:'FastMoss', desc:'TTS 达人 / 商品 / 竞品数据分析工具（业内标配）。',
+        tags:['工具','选品'], channel:'TT', market:'通用', url:'https://www.fastmoss.com/' },
+      { kind:'tool', title:'竞品拆解模板 (Excel)', desc:'8 个维度对比 5 家竞品 · 附打分公式。',
+        tags:['模板','选品','速用'], channel:'通用', market:'通用', url:'#' },
+    ]
+  },
+  {
+    id: 'content',
+    name: '③ 内容创作 & 达人合作',
+    desc: '创作者金字塔、脚本公式、Flat Fee 谈判、内容合规。',
+    items: [
+      { kind:'note', title:'创作者三层金字塔框架', desc:'T1/T2/T3 达人分层策略 + 单人预算参考 + Flat Fee 决策逻辑。',
+        tags:['达人','策略','必读'], channel:'TT', market:'通用', url:'#' },
+      { kind:'tool', title:'达人 Outreach 邮件模板包', desc:'冷启动 / 复投 / 谈判三阶段邮件模板 · 中英双语。',
+        tags:['模板','达人','速用'], channel:'TT', market:'通用', url:'#' },
+      { kind:'link', title:'TTS Creator Marketplace', desc:'官方达人库 · 邀约 / 合作 / 数据看板。',
+        tags:['官方','工具','达人'], channel:'TT', market:'通用', url:'https://creatormarketplace.tiktok.com/' },
+    ]
+  },
+  {
+    id: 'ads',
+    name: '④ 广告投放 (GMV Max / Spark Ads)',
+    desc: '起量、稳量、ROI 优化。500 视频阈值是起点，不是终点。',
+    items: [
+      { kind:'link', title:'GMV Max 官方指引', desc:'TTS 全自动智能投放产品——策略核心。',
+        tags:['官方','广告'], channel:'TT', market:'通用', url:'https://seller-us.tiktok.com/university/essay?knowledge_id=10008838' },
+      { kind:'note', title:'GMV Max 冷启动 45 天投放节奏', desc:'预算分配 / 出价策略 / 素材筛选 / 何时开二级投放。',
+        tags:['广告','冷启动','SOP'], channel:'TT', market:'跨境', url:'#' },
+      { kind:'tool', title:'广告效果日报模板', desc:'ROAS / CPM / CVR 每日追踪 + 异常预警公式。',
+        tags:['模板','广告','日常'], channel:'通用', market:'通用', url:'#' },
+    ]
+  },
+  {
+    id: 'ops',
+    name: '⑤ 运营 SOP & 冷启动 Playbook',
+    desc: '从 Onboarding 到毕业检查点——把执行流程标准化。',
+    items: [
+      { kind:'note', title:'TTS 45 天冷启动方法论（完整版）', desc:'6 个 Checkpoint 硬门槛 · Pre-Kickoff 14 天 · 假毕业识别。',
+        tags:['SOP','冷启动','必读'], channel:'TT', market:'跨境', url:'#' },
+      { kind:'tool', title:'Boost Engine Onboarding Checklist', desc:'新客户接入 45 项检查清单 · 分模块勾选。',
+        tags:['Checklist','Onboarding'], channel:'TT', market:'跨境', url:'#' },
+      { kind:'tool', title:'TTS 2026 Campaign Calendar', desc:'全年 28 场活动 · Tiering (A/S/SS) · 精确到小时的开抢时间。',
+        tags:['日历','2026','运营'], channel:'TT', market:'通用', url:'./TTS_2026_Campaign_Calendar.html' },
+    ]
+  },
+  {
+    id: 'cases',
+    name: '⑥ 案例分析 Case Studies',
+    desc: '真实品牌案例拆解——自己做的 papatui / Henkel，也拆别家做得好的（Anker、Halara、Hero Cosmetics 等）。看结果，更看决策过程。',
+    items: [
+      { kind:'case', title:'papatui Day 1 开工日记', desc:'首日决策：拒绝赶年中促、达人金字塔配比、"什么叫失败"的对齐——决策原始记录。',
+        tags:['papatui','冷启动','决策日志'], channel:'TT', market:'跨境', url:'./article.html?file=notes/case-papatui-day1.md' },
+      { kind:'note', title:'思考：Flat Fee 的边界在哪里', desc:'Flat Fee 不是付款方式，是"买测试权"的决策工具。为什么 Tier 3 有时比 Tier 1 更值得给？',
+        tags:['达人','Flat Fee','思考'], channel:'TT', market:'通用', url:'./article.html?file=notes/thinking-flat-fee-boundary.md' },
+      { kind:'note', title:'TTS 冷启动 · 高频 Q&A', desc:'500 视频是硬指标吗？Flat Fee 给多少？Day 30 不达标要放弃吗？——4 个决策依据而非答案。',
+        tags:['Q&A','冷启动','必读'], channel:'TT', market:'通用', url:'./article.html?file=notes/qa-tts-cold-start.md' },
+    ]
+  },
+];
+
+// ==================== RENDER ====================
+const container   = document.getElementById('categoryContainer');
+const emptyState  = document.getElementById('emptyState');
+const searchInput = document.getElementById('search');
+let currentKind = 'all', currentCh = 'all', currentMkt = 'all';
+
+function kindLabel(k){ return {link:'🔗 外链', note:'📝 笔记', tool:'🛠 工具', case:'🎯 案例'}[k] || k; }
+function kindClass(k){ return {link:'kind-link', note:'kind-note', tool:'kind-tool', case:'kind-case'}[k] || ''; }
+
+function highlight(text, kw){
+  if(!kw) return text;
+  const re = new RegExp('(' + kw.replace(/[.*+?^${}()|[\]\\]/g,'\\$&') + ')', 'gi');
+  return text.replace(re, '<mark>$1</mark>');
+}
+
+function channelList(ch){ return (ch||'通用').split(',').map(s=>s.trim()).filter(Boolean); }
+
+function itemMatches(item, kw){
+  if(currentKind !== 'all' && item.kind !== currentKind) return false;
+  if(currentCh   !== 'all' && !channelList(item.channel).includes(currentCh)) return false;
+  if(currentMkt  !== 'all' && (item.market||'通用') !== currentMkt) return false;
+  if(!kw) return true;
+  const hay = (item.title + ' ' + item.desc + ' ' + (item.tags||[]).join(' ') + ' ' + (item.channel||'') + ' ' + (item.market||'')).toLowerCase();
+  return hay.includes(kw.toLowerCase());
+}
+
+function render(){
+  const kw = searchInput.value.trim();
+  container.innerHTML = '';
+  let totalShown = 0;
+
+  DATA.forEach(cat => {
+    const matched = cat.items.filter(it => itemMatches(it, kw));
+    if(matched.length === 0) return;
+    totalShown += matched.length;
+
+    const section = document.createElement('div');
+    section.innerHTML = `
+      <div class="mb-4">
+        <h2 class="text-xl font-semibold text-slate-900">${cat.name}</h2>
+        <p class="text-sm text-slate-500 mt-1">${cat.desc}</p>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+        ${matched.map(it => `
+          <a href="${it.url}" target="_blank" rel="noopener"
+             class="card block bg-white border border-slate-200 rounded-xl p-5 hover:border-brand-500">
+            <div class="flex items-center justify-between mb-3">
+              <span class="text-xs font-medium px-2 py-0.5 rounded-full ${kindClass(it.kind)}">${kindLabel(it.kind)}</span>
+              <svg class="w-4 h-4 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+            </div>
+            <div class="font-semibold text-slate-900 leading-snug mb-1">${highlight(it.title, kw)}</div>
+            <div class="text-sm text-slate-500 leading-relaxed mb-3">${highlight(it.desc, kw)}</div>
+            <div class="flex flex-wrap gap-1.5 mb-2">
+              ${channelList(it.channel).map(c => `<span class="text-[11px] px-2 py-0.5 rounded ch-${c}">${c}</span>`).join('')}
+              <span class="text-[11px] px-2 py-0.5 rounded mkt-${it.market||'通用'}">${it.market||'通用'}</span>
+            </div>
+            <div class="flex flex-wrap gap-1.5">
+              ${(it.tags||[]).map(t => `<span class="text-[11px] text-slate-500 bg-slate-100 px-2 py-0.5 rounded">${t}</span>`).join('')}
+            </div>
+          </a>
+        `).join('')}
+      </div>
+    `;
+    container.appendChild(section);
+  });
+
+  emptyState.classList.toggle('hidden', totalShown > 0);
+}
+
+searchInput.addEventListener('input', render);
+document.querySelectorAll('.chip').forEach(btn => btn.addEventListener('click', () => {
+  document.querySelectorAll('.chip').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentKind = btn.dataset.kind;
+  render();
+}));
+document.querySelectorAll('.chip-ch').forEach(btn => btn.addEventListener('click', () => {
+  document.querySelectorAll('.chip-ch').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentCh = btn.dataset.ch;
+  render();
+}));
+document.querySelectorAll('.chip-mkt').forEach(btn => btn.addEventListener('click', () => {
+  document.querySelectorAll('.chip-mkt').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  currentMkt = btn.dataset.mkt;
+  render();
+}));
+
+// ==================== ADD-CONTENT MODAL ====================
+const addModal = document.getElementById('addModal');
+const openAdd = () => {
+  const sel = document.getElementById('f_category');
+  sel.innerHTML = DATA.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+  addModal.classList.remove('hidden');
+  addModal.classList.add('flex');
+};
+const closeAdd = () => {
+  addModal.classList.add('hidden');
+  addModal.classList.remove('flex');
+};
+document.getElementById('openAddBtn').addEventListener('click', openAdd);
+document.getElementById('fabAdd').addEventListener('click', openAdd);
+document.getElementById('closeModalBtn').addEventListener('click', closeAdd);
+addModal.addEventListener('click', (e) => { if(e.target === addModal) closeAdd(); });
+
+document.getElementById('clearFormBtn').addEventListener('click', () => {
+  ['f_title','f_desc','f_tags','f_url'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('outputBox').classList.add('hidden');
+});
+
+document.getElementById('genJsonBtn').addEventListener('click', () => {
+  const kind    = document.getElementById('f_kind').value;
+  const title   = document.getElementById('f_title').value.trim();
+  const desc    = document.getElementById('f_desc').value.trim();
+  const tagsStr = document.getElementById('f_tags').value.trim();
+  const channel = document.getElementById('f_channel').value.trim() || '通用';
+  const market  = document.getElementById('f_market').value.trim() || '通用';
+  const url     = document.getElementById('f_url').value.trim() || '#';
+  const cat     = document.getElementById('f_category').value;
+
+  if(!title || !desc){
+    alert('标题和简介是必填项');
+    return;
+  }
+  const tags = tagsStr ? tagsStr.split(/[,，]\s*/).filter(Boolean) : [];
+  const obj = { kind, title, desc, tags, channel, market, url };
+  const jsonLine = `      { kind:'${kind}', title:${JSON.stringify(title)}, desc:${JSON.stringify(desc)},\n        tags:${JSON.stringify(tags)}, channel:'${channel}', market:'${market}', url:${JSON.stringify(url)} },`;
+
+  const catName = DATA.find(c => c.id === cat)?.name || cat;
+  const output = `// 👉 粘贴到分类 [${catName}] (id: '${cat}') 的 items 数组末尾：\n${jsonLine}`;
+  document.getElementById('jsonOutput').value = output;
+  document.getElementById('outputBox').classList.remove('hidden');
+});
+
+document.getElementById('copyBtn').addEventListener('click', async () => {
+  const text = document.getElementById('jsonOutput').value;
+  try {
+    await navigator.clipboard.writeText(text);
+    document.getElementById('copyStatus').textContent = '✅ 已复制到剪贴板';
+    setTimeout(() => { document.getElementById('copyStatus').textContent = ''; }, 2000);
+  } catch(e) {
+    document.getElementById('jsonOutput').select();
+    document.execCommand('copy');
+    document.getElementById('copyStatus').textContent = '✅ 已复制（备用方式）';
+  }
+});
+
+// ==================== TABS ====================
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    document.querySelectorAll('.tab-btn').forEach(b => {
+      b.classList.remove('active','border-brand-500','text-brand-600');
+      b.classList.add('border-transparent','text-slate-500');
+    });
+    btn.classList.add('active','border-brand-500','text-brand-600');
+    btn.classList.remove('border-transparent','text-slate-500');
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.add('hidden'));
+    document.getElementById('tab-' + btn.dataset.tab).classList.remove('hidden');
+  });
+});
+
+// ==================== CSV BULK IMPORT ====================
+// Simple CSV parser that handles quoted fields with commas
+function parseCsvLine(line, sep){
+  const out = [];
+  let cur = '', inQ = false;
+  for(let i = 0; i < line.length; i++){
+    const c = line[i];
+    if(c === '"'){
+      if(inQ && line[i+1] === '"'){ cur += '"'; i++; }
+      else inQ = !inQ;
+    } else if(c === sep && !inQ){
+      out.push(cur); cur = '';
+    } else {
+      cur += c;
+    }
+  }
+  out.push(cur);
+  return out.map(s => s.trim());
+}
+
+function detectSeparator(headerLine){
+  const tabs = (headerLine.match(/\t/g)||[]).length;
+  const commas = (headerLine.match(/,/g)||[]).length;
+  return tabs > commas ? '\t' : ',';
+}
+
+document.getElementById('loadTemplateBtn').addEventListener('click', () => {
+  document.getElementById('csvInput').value =
+`category_id,kind,title,desc,tags,channel,market,url
+ads,note,GMV Max 起量攻略,如何从 500 视频阈值走到日 100 单,广告;冷启动;起量,TT,跨境,#
+research,link,Jungle Scout,Amazon 选品/关键词/销量估算工具,选品;工具,Amazon,通用,https://www.junglescout.com/
+content,tool,直播脚本 30 秒钩子公式,前 3 秒抓眼球的 5 种结构,直播;脚本;模板,TT,通用,#`;
+});
+
+document.getElementById('parseCsvBtn').addEventListener('click', () => {
+  const raw = document.getElementById('csvInput').value.trim();
+  const statusEl = document.getElementById('parseStatus');
+  if(!raw){
+    statusEl.className = 'text-xs ml-auto text-red-500';
+    statusEl.textContent = '请先粘贴 CSV 内容';
+    return;
+  }
+  const lines = raw.split(/\r?\n/).filter(l => l.trim());
+  if(lines.length < 2){
+    statusEl.className = 'text-xs ml-auto text-red-500';
+    statusEl.textContent = '至少需要表头 + 1 行数据';
+    return;
+  }
+  const sep = detectSeparator(lines[0]);
+  const headers = parseCsvLine(lines[0], sep).map(h => h.toLowerCase());
+  const required = ['category_id','kind','title','desc','channel','market'];
+  const missing = required.filter(r => !headers.includes(r));
+  if(missing.length){
+    statusEl.className = 'text-xs ml-auto text-red-500';
+    statusEl.textContent = '缺少必要列: ' + missing.join(', ');
+    return;
+  }
+
+  // Parse rows into {cat -> [items]}
+  const byCat = {};
+  let bad = 0;
+  for(let i = 1; i < lines.length; i++){
+    const row = parseCsvLine(lines[i], sep);
+    const rec = {};
+    headers.forEach((h, idx) => rec[h] = row[idx] || '');
+    if(!rec.category_id || !rec.title){ bad++; continue; }
+    const item = {
+      kind: rec.kind || 'link',
+      title: rec.title,
+      desc:  rec.desc || '',
+      tags:  (rec.tags||'').split(/[;,，]\s*/).filter(Boolean),
+      channel: rec.channel || '通用',
+      market:  rec.market  || '通用',
+      url:     rec.url     || '#',
+    };
+    (byCat[rec.category_id] = byCat[rec.category_id] || []).push(item);
+  }
+
+  const total = Object.values(byCat).reduce((s,a) => s + a.length, 0);
+  if(total === 0){
+    statusEl.className = 'text-xs ml-auto text-red-500';
+    statusEl.textContent = '没解析到有效数据行';
+    return;
+  }
+
+  // Build output snippets
+  const parts = [];
+  Object.keys(byCat).forEach(catId => {
+    const catInfo = DATA.find(c => c.id === catId);
+    const catLabel = catInfo ? catInfo.name : `(未知分类 id: ${catId})`;
+    parts.push(`// 👉 粘贴到分类 [${catLabel}] (id: '${catId}') 的 items 数组末尾：`);
+    byCat[catId].forEach(it => {
+      parts.push(`      { kind:'${it.kind}', title:${JSON.stringify(it.title)}, desc:${JSON.stringify(it.desc)},\n        tags:${JSON.stringify(it.tags)}, channel:'${it.channel}', market:'${it.market}', url:${JSON.stringify(it.url)} },`);
+    });
+    parts.push('');
+  });
+
+  document.getElementById('bulkJsonOutput').value = parts.join('\n');
+  document.getElementById('bulkOutputBox').classList.remove('hidden');
+  statusEl.className = 'text-xs ml-auto text-green-600';
+  statusEl.textContent = `✅ 已解析 ${total} 条${bad ? ' · 跳过 ' + bad + ' 条无效行' : ''}`;
+});
+
+document.getElementById('copyBulkBtn').addEventListener('click', async () => {
+  const text = document.getElementById('bulkJsonOutput').value;
+  try {
+    await navigator.clipboard.writeText(text);
+    document.getElementById('copyBulkStatus').textContent = '✅ 已复制';
+    setTimeout(() => { document.getElementById('copyBulkStatus').textContent = ''; }, 2000);
+  } catch(e) {
+    document.getElementById('bulkJsonOutput').select();
+    document.execCommand('copy');
+    document.getElementById('copyBulkStatus').textContent = '✅ 已复制（备用）';
+  }
+});
+
+render();
+</script>
+</body>
+</html>
